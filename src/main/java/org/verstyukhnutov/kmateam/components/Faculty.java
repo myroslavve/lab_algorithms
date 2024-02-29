@@ -4,16 +4,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Represents a faculty in a university or college.
+ * Represents a faculty in university.
  */
 public class Faculty {
+    private String name;
     Map<String, Department> departments;
 
     /**
      * Constructs a new Faculty with an empty map of departments.
      */
-    public Faculty() {
+    public Faculty(String name) {
         this.departments = new HashMap<>();
+        this.name = name;
+    }
+
+    /**
+     * Constructs a new Faculty with a map of departments.
+     *
+     * @param departments the map of departments in the faculty
+     */
+    public Faculty(String name, Map<String, Department> departments) {
+        this.departments = departments;
+        this.name = name;
     }
 
     /**
@@ -61,5 +73,23 @@ public class Faculty {
      */
     public void editDepartment(String name, Department department) {
         departments.put(name, department);
+    }
+
+    /**
+     * Returns the name of the faculty.
+     *
+     * @return the name of the faculty
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Sets the name of the faculty.
+     *
+     * @param name the new name of the faculty
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 }

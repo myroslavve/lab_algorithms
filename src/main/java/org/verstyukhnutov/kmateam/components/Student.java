@@ -6,20 +6,23 @@ package org.verstyukhnutov.kmateam.components;
 public class Student {
     private String name;
     private int course;
+    private int group;
     private String department;
     private String faculty;
 
     /**
      * Constructs a new Student with the given name, course, department, and faculty.
      *
-     * @param name the name of the student
-     * @param course the course the student is enrolled in
+     * @param name       the name of the student
+     * @param course     the course the student is enrolled in
+     * @param group      the group the student is enrolled in
      * @param department the department the student belongs to
-     * @param faculty the faculty the student belongs to
+     * @param faculty    the faculty the student belongs to
      */
-    public Student(String name, int course, String department, String faculty) {
+    public Student(String name, int course, int group, String department, String faculty) {
         this.name = name;
         this.course = course;
+        this.group = group;
         this.department = department;
         this.faculty = faculty;
     }
@@ -40,6 +43,15 @@ public class Student {
      */
     public int getCourse() {
         return course;
+    }
+
+    /**
+     * Returns the group the student is enrolled in.
+     *
+     * @return the group the student is enrolled in
+     */
+    public int getGroup() {
+        return group;
     }
 
     /**
@@ -76,6 +88,15 @@ public class Student {
      */
     public void setCourse(int course) {
         this.course = course;
+    }
+
+    /**
+     * Sets the group the student is enrolled in.
+     *
+     * @param group the new group the student is enrolled in
+     */
+    public void setGroup(int group) {
+        this.group = group;
     }
 
     /**

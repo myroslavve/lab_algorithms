@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a department in a university or college.
+ * Represents a department in university.
  */
 public class Department {
     private String name;
