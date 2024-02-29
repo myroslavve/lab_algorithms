@@ -1,31 +1,30 @@
 package org.verstyukhnutov.kmateam.components;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import picocli.CommandLine.Option;
+
 /**
  * Represents a student in a university or college.
  */
 public class Student {
-    private String name;
-    private int course;
-    private int group;
-    private String department;
-    private String faculty;
+    @JsonProperty("ПІБ Студента")
+    @Option(names = "--student-name", required = true)
+    String name;
 
-    /**
-     * Constructs a new Student with the given name, course, department, and faculty.
-     *
-     * @param name       the name of the student
-     * @param course     the course the student is enrolled in
-     * @param group      the group the student is enrolled in
-     * @param department the department the student belongs to
-     * @param faculty    the faculty the student belongs to
-     */
-    public Student(String name, int course, int group, String department, String faculty) {
-        this.name = name;
-        this.course = course;
-        this.group = group;
-        this.department = department;
-        this.faculty = faculty;
-    }
+    @JsonProperty("Курс")
+    @Option(names = "--student-course", required = true)
+    int course;
+
+    @JsonProperty("Група")
+    @Option(names = "--student-group", required = true)
+    int group;
+
+    @JsonProperty("Кафедра")
+    @Option(names = "--student-department", required = true)
+    String department;
 
     /**
      * Returns the name of the student.
@@ -61,15 +60,6 @@ public class Student {
      */
     public String getDepartment() {
         return department;
-    }
-
-    /**
-     * Returns the faculty the student belongs to.
-     *
-     * @return the faculty the student belongs to
-     */
-    public String getFaculty() {
-        return faculty;
     }
 
     /**
@@ -109,20 +99,16 @@ public class Student {
     }
 
     /**
-     * Sets the faculty the student belongs to.
-     *
-     * @param faculty the new faculty the student belongs to
-     */
-    public void setFaculty(String faculty) {
-        this.faculty = faculty;
-    }
-
-    /**
      * Returns a string representation of the student.
      *
      * @return a string representation of the student
      */
     public String toString() {
-        return "Student{name='" + name + "', course=" + course + ", department='" + department + "', faculty='" + faculty + "'}";
+        try {
+            ObjectMapper mapper = new ObjectMapper();        
+            return mapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            return "<undefined>";
+        }
     }
 }

@@ -1,13 +1,25 @@
 package org.verstyukhnutov.kmateam.components;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class University {
-    private HashMap<String, Faculty> faculties;
-    private List<Student> students;
+    @JsonProperty("Факультети")
+    HashMap<String, Faculty> faculties;
+    @JsonProperty("Студенти")
+    List<Student> students;
 
     public University() {
         this.faculties = new HashMap<>();
@@ -18,6 +30,59 @@ public class University {
         this.faculties = faculties;
         this.students = new ArrayList<>();
         updateStudents();
+    }
+
+    public static University fromJson() {
+        try {
+            File file = new File("university.json");
+            Scanner scanner = new Scanner(file);
+            String json = new String();
+            while (scanner.hasNextLine()) {
+                json += scanner.nextLine();
+            }
+            scanner.close();
+
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(json, University.class);
+        } catch (FileNotFoundException fnfe) {
+            File file = new File("university.json");
+            University university = new University();
+
+            try {
+                file.createNewFile();
+                ObjectMapper mapper = new ObjectMapper();        
+                String json = mapper.writeValueAsString(university);
+
+                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                writer.write(json);
+                writer.close();
+            } catch (IOException ioe) {
+                System.out.println("I/O error: "+ioe.getMessage());
+                System.exit(-1);
+            }
+
+            return university;
+        } catch (JsonProcessingException jpe) {
+            System.out.println("Cannot process JSON: "+jpe.getMessage());
+            System.exit(-1);
+            return null;
+        }
+    }
+
+    public void toJson() {
+        try {
+            ObjectMapper mapper = new ObjectMapper();        
+            String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter("university.json"));
+            writer.write(json);
+            writer.close();
+        } catch (JsonProcessingException jpe) {
+            jpe.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        
     }
 
     public HashMap<String, Faculty> getFaculties() {

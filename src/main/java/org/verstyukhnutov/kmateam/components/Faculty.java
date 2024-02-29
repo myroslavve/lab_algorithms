@@ -3,30 +3,20 @@ package org.verstyukhnutov.kmateam.components;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import picocli.CommandLine.Option;
+
 /**
  * Represents a faculty in university.
  */
 public class Faculty {
-    private String name;
-    Map<String, Department> departments;
+    @JsonProperty("Назва факультету")
+    @Option(names = "--faculty-name", required = true)
+    String name;
 
-    /**
-     * Constructs a new Faculty with an empty map of departments.
-     */
-    public Faculty(String name) {
-        this.departments = new HashMap<>();
-        this.name = name;
-    }
-
-    /**
-     * Constructs a new Faculty with a map of departments.
-     *
-     * @param departments the map of departments in the faculty
-     */
-    public Faculty(String name, Map<String, Department> departments) {
-        this.departments = departments;
-        this.name = name;
-    }
+    @JsonProperty("Кафедри")
+    Map<String, Department> departments = new HashMap<String, Department>();
 
     /**
      * Returns the map of departments in the faculty.
@@ -47,13 +37,21 @@ public class Faculty {
     }
 
     /**
-     * Adds a department to the faculty.
+     * Gets a department from the faculty.
      *
      * @param name the name of the department
+     */
+    public Department getDepartment(String name) {
+        return departments.get(name);
+    }
+
+    /**
+     * Adds a department to the faculty.
+     *
      * @param department the department to add
      */
-    public void addDepartment(String name, Department department) {
-        departments.put(name, department);
+    public void addDepartment(Department department) {
+        departments.put(department.getName(), department);
     }
 
     /**

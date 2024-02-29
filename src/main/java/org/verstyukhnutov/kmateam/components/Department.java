@@ -3,43 +3,27 @@ package org.verstyukhnutov.kmateam.components;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import picocli.CommandLine.Option;
+
 /**
  * Represents a department in university.
  */
 public class Department {
-    private String name;
-    private String faculty;
-    private List<Teacher> teachers;
-    private List<Student> students;
+    @JsonProperty("Назва кафедри")
+    @Option(names = "--department-name", required = true)
+    String name;
 
-    /**
-     * Constructs a new Department with the given name and faculty.
-     * Initializes empty lists of teachers and students.
-     *
-     * @param name the name of the department
-     * @param faculty the faculty the department belongs to
-     */
-    public Department(String name, String faculty) {
-        this.name = name;
-        this.faculty = faculty;
-        this.teachers = new ArrayList<>();
-        this.students = new ArrayList<>();
-    }
+    @JsonProperty("Назва факультету")
+    @Option(names = "--department-faculty", required = true)
+    String faculty;
 
-    /**
-     * Constructs a new Department with the given name, faculty, list of teachers, and list of students.
-     *
-     * @param name the name of the department
-     * @param faculty the faculty the department belongs to
-     * @param teachers the list of teachers in the department
-     * @param students the list of students in the department
-     */
-    public Department(String name, String faculty, List<Teacher> teachers, List<Student> students) {
-        this.name = name;
-        this.faculty = faculty;
-        this.teachers = teachers;
-        this.students = students;
-    }
+    @JsonProperty("Викладачі")
+    List<Teacher> teachers = new ArrayList<Teacher>();
+
+    @JsonProperty("Студенти")
+    List<Student> students = new ArrayList<Student>();
 
     /**
      * Returns the name of the department.
