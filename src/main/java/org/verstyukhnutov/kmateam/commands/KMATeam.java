@@ -13,6 +13,7 @@ import java.util.concurrent.Callable;
     subcommands = {
         KMATeamAdd.class,
         KMATeamShow.class,
+        KMATeamEdit.class,
         CommandLine.HelpCommand.class,
     }
 )

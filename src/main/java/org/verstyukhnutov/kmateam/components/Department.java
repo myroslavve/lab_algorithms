@@ -112,6 +112,15 @@ public class Department {
     }
 
     /**
+     * Get a teacher from the department.
+     *
+     * @param name the teacher name
+     */
+    public Teacher getTeacher(String name) {
+        return teachers.get(name);
+    }
+
+    /**
      * Removes a teacher from the department.
      *
      * @param teacher the teacher to remove
@@ -137,6 +146,15 @@ public class Department {
             students.put(student.getName(), student);
             return true;
         }
+    }
+
+    /**
+     * Get a student from the department.
+     *
+     * @param name the student name
+     */
+    public Student getStudent(String name) {
+        return students.get(name);
     }
 
     /**
