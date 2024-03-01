@@ -1,4 +1,4 @@
-package org.verstyukhnutov.kmateam.utils;
+package org.verstyukhnutov.kmateam.commands;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -12,6 +12,7 @@ import java.util.concurrent.Callable;
     description = "Program for forming a list of students and teachers of NaUKMA University.",
     subcommands = {
         KMATeamAdd.class,
+        KMATeamShow.class,
         CommandLine.HelpCommand.class,
     }
 )
@@ -19,6 +20,7 @@ public class KMATeam implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
+        
         return 0;
     }
 

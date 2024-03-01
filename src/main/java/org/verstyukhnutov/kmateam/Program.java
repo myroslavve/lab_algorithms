@@ -1,7 +1,8 @@
 package org.verstyukhnutov.kmateam;
 
+import org.verstyukhnutov.kmateam.commands.KMATeam;
 import org.verstyukhnutov.kmateam.components.University;
-import org.verstyukhnutov.kmateam.utils.KMATeam;
+
 import picocli.CommandLine;
 
 public class Program {

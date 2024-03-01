@@ -1,19 +1,18 @@
-package org.verstyukhnutov.kmateam.utils;
+package org.verstyukhnutov.kmateam.commands;
 
 import org.verstyukhnutov.kmateam.Program;
 import org.verstyukhnutov.kmateam.components.Department;
 import org.verstyukhnutov.kmateam.components.Faculty;
 import org.verstyukhnutov.kmateam.components.Student;
 import org.verstyukhnutov.kmateam.components.Teacher;
+import org.verstyukhnutov.kmateam.utils.ConsoleColor;
+import org.verstyukhnutov.kmateam.utils.ManipulateType;
 
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
-@Command(
-    name = "add", 
-    description = "Add faculty/department/student/teacher."
-)
+@Command(name = "add", description = "Add faculty/department/student/teacher.")
 public class KMATeamAdd implements Runnable {
 
     @Parameters(
@@ -23,16 +22,16 @@ public class KMATeamAdd implements Runnable {
     )
     ManipulateType manipulateType;
 
-    @ArgGroup(exclusive = false)
+    @ArgGroup(exclusive = false, heading = "Teacher options%n")
     Teacher teacher;
 
-    @ArgGroup(exclusive = false)
+    @ArgGroup(exclusive = false, heading = "Student options%n")
     Student student;
 
-    @ArgGroup(exclusive = false)
+    @ArgGroup(exclusive = false, heading = "Faculty options%n")
     Faculty faculty;
 
-    @ArgGroup(exclusive = false)
+    @ArgGroup(exclusive = false, heading = "Department options%n")
     Department department;
 
     @Override
@@ -54,6 +53,7 @@ public class KMATeamAdd implements Runnable {
                         System.out.println(ConsoleColor.GREEN + "Department is successfully added." + ConsoleColor.RESET);
                         return;
                     } else {
+                        System.out.println(ConsoleColor.RED + "No such faculty `" + department.getFaculty() + "`" + ConsoleColor.RESET);
                         break;
                     }
                 }
@@ -73,6 +73,7 @@ public class KMATeamAdd implements Runnable {
                         System.out.println(ConsoleColor.GREEN + "Student is successfully added." + ConsoleColor.RESET);
                         return;
                     } else {
+                        System.out.println(ConsoleColor.RED + "No such department `" + student.getDepartment() + "`" + ConsoleColor.RESET);
                         break;
                     } 
                 }
@@ -92,6 +93,7 @@ public class KMATeamAdd implements Runnable {
                         System.out.println(ConsoleColor.GREEN + "Teacher is successfully added." + ConsoleColor.RESET);
                         return;
                     } else {
+                        System.out.println(ConsoleColor.RED + "No such department `" + teacher.getDepartment() + "`" + ConsoleColor.RESET);
                         break;
                     } 
                 }
@@ -101,8 +103,7 @@ public class KMATeamAdd implements Runnable {
                 break;
         }
 
-        System.out.println(ConsoleColor.RED + "ERROR" + ConsoleColor.RESET);
-        System.exit(-1);
+        return;
     }
 
 }
