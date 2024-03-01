@@ -12,9 +12,10 @@ import java.util.concurrent.Callable;
     description = "Program for forming a list of students and teachers of NaUKMA University.",
     subcommands = {
         KMATeamAdd.class,
-        KMATeamShow.class,
         KMATeamEdit.class,
         KMATeamDelete.class,
+        KMATeamShow.class,
+        KMATeamFind.class,
         CommandLine.HelpCommand.class,
     }
 )
