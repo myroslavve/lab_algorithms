@@ -8,7 +8,7 @@ import org.verstyukhnutov.kmateam.components.Department;
 import org.verstyukhnutov.kmateam.components.Faculty;
 import org.verstyukhnutov.kmateam.components.Student;
 import org.verstyukhnutov.kmateam.components.Teacher;
-import org.verstyukhnutov.kmateam.utils.ConsoleColor;
+import org.verstyukhnutov.kmateam.utils.Debug;
 import org.verstyukhnutov.kmateam.utils.DisplayType;
 import org.verstyukhnutov.kmateam.utils.SearchRange;
 import org.verstyukhnutov.kmateam.utils.Sort;
@@ -22,10 +22,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-@Command(
-    name = "show", 
-    description = "Show students/teachers in university/faculty/department."
-)
+@Command(name = "show", description = "Show students/teachers in university/faculty/department.")
 public class KMATeamShow implements Runnable {
 
     static class Search {
@@ -59,7 +56,7 @@ public class KMATeamShow implements Runnable {
         List<Student> students = new ArrayList<Student>();
 
         if (search == null) {
-            System.out.println(ConsoleColor.RED + "`--range` option is mandatory!" + ConsoleColor.RESET);
+            Debug.error("`--range` option is mandatory!");
             return;
         }
 
@@ -76,11 +73,13 @@ public class KMATeamShow implements Runnable {
                     if (dep != null) {
                         switch (displayType) {
                             case students:
-                                students = dep.getStudents();
+                                students.clear();
+                                students.addAll(dep.getStudents().values());
                                 break;
 
                             case teachers:
-                                teachers = dep.getTeachers();
+                                teachers.clear();
+                                teachers.addAll(dep.getTeachers().values());
                                 break;
 
                             default:
@@ -89,12 +88,13 @@ public class KMATeamShow implements Runnable {
 
                         break;
                     } else {
-                        System.out.println(ConsoleColor.RED + "No such department `" + search.rangeName + "`" + ConsoleColor.RESET);
+                        Debug.error("No such department `" + search.rangeName + "`");
+
                         return;
                     } 
                 }
 
-                System.out.println(ConsoleColor.RED + "Department name must be specified with `--name`!" + ConsoleColor.RESET);
+                Debug.error("Department name must be specified with `--name`!");
                 return;
 
             case faculty:
@@ -105,11 +105,11 @@ public class KMATeamShow implements Runnable {
                         for (Department dep : fac.getDepartments().values()) {
                             switch (displayType) {
                                 case students:
-                                    students.addAll(dep.getStudents());
+                                    students.addAll(dep.getStudents().values());
                                     break;
 
                                 case teachers:
-                                    teachers.addAll(dep.getTeachers());
+                                    teachers.addAll(dep.getTeachers().values());
                                     break;
 
                                 default:
@@ -119,12 +119,12 @@ public class KMATeamShow implements Runnable {
 
                         break;
                     } else {
-                        System.out.println(ConsoleColor.RED + "No such faculty `" + search.rangeName + "`" + ConsoleColor.RESET);
+                        Debug.error("No such faculty `" + search.rangeName + "`");
                         return;
                     } 
                 }
 
-                System.out.println(ConsoleColor.RED + "Faculty name must be specified with `--name`!" + ConsoleColor.RESET);
+                Debug.error("Faculty name must be specified with `--name`!");
                 return;
             
             case all:
@@ -133,11 +133,11 @@ public class KMATeamShow implements Runnable {
                         for (Department dep : fac.getDepartments().values()) {
                             switch (displayType) {
                                 case students:
-                                    students.addAll(dep.getStudents());
+                                    students.addAll(dep.getStudents().values());
                                     break;
 
                                 case teachers:
-                                    teachers.addAll(dep.getTeachers());
+                                    teachers.addAll(dep.getTeachers().values());
                                     break;
 
                                 default:
@@ -149,7 +149,7 @@ public class KMATeamShow implements Runnable {
                     break;
                 }
                 
-                System.out.println(ConsoleColor.RED + "`--name` must not be specified for `all` sort method!" + ConsoleColor.RESET);
+                Debug.error("`--name` must not be specified for `all` sort method!");
                 return;
 
             case course:
@@ -161,7 +161,7 @@ public class KMATeamShow implements Runnable {
 
                                 for (Faculty fac : Program.university.getFaculties().values()) {
                                     for (Department dep : fac.getDepartments().values()) {
-                                        for (Student stud : dep.getStudents()) {
+                                        for (Student stud : dep.getStudents().values()) {
                                             if (stud.getCourse() == course) {
                                                 students.add(stud);
                                             }
@@ -169,18 +169,18 @@ public class KMATeamShow implements Runnable {
                                     }
                                 }
                             } catch (NumberFormatException e) {
-                                System.out.println(ConsoleColor.RED + "`" + search.rangeName + "` is not a number!" + ConsoleColor.RESET);
+                                Debug.error("`" + search.rangeName + "` is not a number!");
                                 return;
                             }
         
                             break;
                         }
 
-                        System.out.println(ConsoleColor.RED + "Course number must be specified with `--name`!" + ConsoleColor.RESET);
+                        Debug.error("Course number must be specified with `--name`!");
                         return;
 
                     case teachers:
-                        System.out.println(ConsoleColor.RED + "Teachers cannot be sorted by course!" + ConsoleColor.RESET);
+                        Debug.error("Teachers cannot be sorted by course!");
                         return;
 
                     default:
@@ -217,7 +217,7 @@ public class KMATeamShow implements Runnable {
                         break;
 
                     case teachers:
-                        System.out.println(ConsoleColor.RED + "Teachers cannot be sorted by course!" + ConsoleColor.RESET);
+                        Debug.error("Teachers cannot be sorted by course!");
                         return;
 
                     default:
@@ -235,12 +235,12 @@ public class KMATeamShow implements Runnable {
             switch (displayType) {
                 case students:
                     String jsonStudents = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(students);
-                    System.out.println("Students: "+jsonStudents);
+                    Debug.info("Students: "+jsonStudents);
                     break;
 
                 case teachers:
                     String jsonTeachers = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(teachers);
-                    System.out.println("Teachers: "+jsonTeachers);
+                    Debug.info("Teachers: "+jsonTeachers);
                     break;
                 
                 default:

@@ -20,7 +20,6 @@ public class KMATeam implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        
         return 0;
     }
 

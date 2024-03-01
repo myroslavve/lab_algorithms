@@ -12,7 +12,7 @@ import picocli.CommandLine.Option;
  */
 public class Faculty {
     @JsonProperty("Назва факультету")
-    @Option(names = "--faculty-name", required = true)
+    @Option(names = "--faculty-name", required = false)
     String name;
 
     @JsonProperty("Кафедри")
@@ -50,8 +50,13 @@ public class Faculty {
      *
      * @param department the department to add
      */
-    public void addDepartment(Department department) {
-        departments.put(department.getName(), department);
+    public boolean addDepartment(Department department) {
+        if (departments.containsKey(department.getName())) {
+            return false;
+        } else {
+            departments.put(department.getName(), department);
+            return true;
+        }
     }
 
     /**
@@ -59,8 +64,13 @@ public class Faculty {
      *
      * @param name the name of the department to remove
      */
-    public void removeDepartment(String name) {
-        departments.remove(name);
+    public boolean removeDepartment(String name) {
+        if (departments.containsKey(name)) {
+            departments.remove(name);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

@@ -1,7 +1,7 @@
 package org.verstyukhnutov.kmateam.components;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -12,18 +12,18 @@ import picocli.CommandLine.Option;
  */
 public class Department {
     @JsonProperty("Назва кафедри")
-    @Option(names = "--department-name", required = true)
+    @Option(names = "--department-name", required = false)
     String name;
 
     @JsonProperty("Назва факультету")
-    @Option(names = "--department-faculty", required = true)
+    @Option(names = "--department-faculty", required = false)
     String faculty;
 
     @JsonProperty("Викладачі")
-    List<Teacher> teachers = new ArrayList<Teacher>();
+    Map<String, Teacher> teachers = new HashMap<String, Teacher>();
 
     @JsonProperty("Студенти")
-    List<Student> students = new ArrayList<Student>();
+    Map<String, Student> students = new HashMap<String, Student>();
 
     /**
      * Returns the name of the department.
@@ -48,7 +48,7 @@ public class Department {
      *
      * @return the list of teachers in the department
      */
-    public List<Teacher> getTeachers() {
+    public Map<String, Teacher> getTeachers() {
         return teachers;
     }
 
@@ -57,7 +57,7 @@ public class Department {
      *
      * @return the list of students in the department
      */
-    public List<Student> getStudents() {
+    public Map<String, Student> getStudents() {
         return students;
     }
 
@@ -84,7 +84,7 @@ public class Department {
      *
      * @param teachers the new list of teachers in the department
      */
-    public void setTeachers(List<Teacher> teachers) {
+    public void setTeachers(Map<String, Teacher> teachers) {
         this.teachers = teachers;
     }
 
@@ -93,7 +93,7 @@ public class Department {
      *
      * @param students the new list of students in the department
      */
-    public void setStudents(List<Student> students) {
+    public void setStudents(Map<String, Student> students) {
         this.students = students;
     }
 
@@ -102,8 +102,13 @@ public class Department {
      *
      * @param teacher the teacher to add
      */
-    public void addTeacher(Teacher teacher) {
-        teachers.add(teacher);
+    public boolean addTeacher(Teacher teacher) {
+        if (teachers.containsKey(teacher.getName())) {
+            return false;
+        } else {
+            teachers.put(teacher.getName(), teacher);
+            return true;
+        }
     }
 
     /**
@@ -111,22 +116,12 @@ public class Department {
      *
      * @param teacher the teacher to remove
      */
-    public void removeTeacher(Teacher teacher) {
-        teachers.remove(teacher);
-    }
-
-    /**
-     * Edits a teacher in the department.
-     *
-     * @param name the name of the teacher to edit
-     * @param teacher the new teacher to replace the old one
-     */
-    public void editTeacher(String name, Teacher teacher) {
-        for (int i = 0; i < teachers.size(); i++) {
-            if (teachers.get(i).getName().equals(name)) {
-                teachers.set(i, teacher);
-                break;
-            }
+    public boolean removeTeacher(String name) {
+        if (teachers.containsKey(name)) {
+            teachers.remove(name);
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -135,8 +130,13 @@ public class Department {
      *
      * @param student the student to add
      */
-    public void addStudent(Student student) {
-        students.add(student);
+    public boolean addStudent(Student student) {
+        if (students.containsKey(student.getName())) {
+            return false;
+        } else {
+            students.put(student.getName(), student);
+            return true;
+        }
     }
 
     /**
@@ -144,22 +144,12 @@ public class Department {
      *
      * @param student the student to remove
      */
-    public void removeStudent(Student student) {
-        students.remove(student);
-    }
-
-    /**
-     * Edits a student in the department.
-     *
-     * @param name the name of the student to edit
-     * @param student the new student to replace the old one
-     */
-    public void editStudent(String name, Student student) {
-        for (int i = 0; i < students.size(); i++) {
-            if (students.get(i).getName().equals(name)) {
-                students.set(i, student);
-                break;
-            }
+    public boolean removeStudent(String name) {
+        if (students.containsKey(name)) {
+            students.remove(name);
+            return true;
+        } else {
+            return false;
         }
     }
 }

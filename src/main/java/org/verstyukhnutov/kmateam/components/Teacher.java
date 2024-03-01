@@ -11,11 +11,11 @@ import picocli.CommandLine.Option;
  */
 public class Teacher {
     @JsonProperty("ПІБ Викладача")
-    @Option(names = "--teacher-name", required = true)
+    @Option(names = "--teacher-name", required = false)
     String name;
 
     @JsonProperty("Кафедра")
-    @Option(names = "--teacher-department", required = true)
+    @Option(names = "--teacher-department", required = false)
     String department;
 
     // /**

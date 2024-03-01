@@ -5,7 +5,7 @@ import org.verstyukhnutov.kmateam.components.Department;
 import org.verstyukhnutov.kmateam.components.Faculty;
 import org.verstyukhnutov.kmateam.components.Student;
 import org.verstyukhnutov.kmateam.components.Teacher;
-import org.verstyukhnutov.kmateam.utils.ConsoleColor;
+import org.verstyukhnutov.kmateam.utils.Debug;
 import org.verstyukhnutov.kmateam.utils.ManipulateType;
 
 import picocli.CommandLine.ArgGroup;
@@ -39,71 +39,99 @@ public class KMATeamAdd implements Runnable {
         switch (manipulateType) {
             case faculty:
                 if (faculty != null) {
-                    Program.university.addFaculty(faculty);
-                    System.out.println(ConsoleColor.GREEN + "Faculty is successfully added." + ConsoleColor.RESET);
-                    return;
+                    if (faculty.getName() != null) {
+                        if (Program.university.addFaculty(faculty)) {
+                            Debug.info("Faculty is successfully added.");
+                        } else {
+                            Debug.error("The faculty already exists!");
+                        }
+
+                        return;
+                    }
                 }
-                break;
+
+                Debug.error("All faculty options must be specified!");
+                return;
 
             case department:
                 if (department != null) {
-                    Faculty fac = Program.university.getFaculty(department.getFaculty());
-                    if (fac != null) {
-                        fac.addDepartment(department);
-                        System.out.println(ConsoleColor.GREEN + "Department is successfully added." + ConsoleColor.RESET);
-                        return;
-                    } else {
-                        System.out.println(ConsoleColor.RED + "No such faculty `" + department.getFaculty() + "`" + ConsoleColor.RESET);
-                        break;
+                    if (department.getName() != null && department.getFaculty() != null) {
+                        Faculty fac = Program.university.getFaculty(department.getFaculty());
+                        if (fac != null) {
+                            if (fac.addDepartment(department)) {
+                                Debug.info("Department is successfully added.");
+                            } else {
+                                Debug.error("The department already exists!");
+                            }
+                            return;
+                        } else {
+                            Debug.error("No such faculty `" + department.getFaculty() + "`");
+                            return;
+                        }
                     }
                 }
-                break;
+
+                Debug.error("All department options must be specified!");
+                return;
 
             case student:
                 if (student != null) {
-                    Department dep = null;
-                    for (Faculty fac : Program.university.getFaculties().values()) {
-                        dep = fac.getDepartment(student.getDepartment());
-                        if (dep != null)
-                            break;
-                    }
+                    if (student.getName() != null && 
+                        student.getCourse() != 0 && 
+                        student.getGroup() != 0 && 
+                        student.getDepartment() != null)
+                    {
+                        Department dep = null;
+                        for (Faculty fac : Program.university.getFaculties().values()) {
+                            dep = fac.getDepartment(student.getDepartment());
+                            if (dep != null)
+                                break;
+                        }
 
-                    if (dep != null) {
-                        dep.addStudent(student);
-                        System.out.println(ConsoleColor.GREEN + "Student is successfully added." + ConsoleColor.RESET);
-                        return;
-                    } else {
-                        System.out.println(ConsoleColor.RED + "No such department `" + student.getDepartment() + "`" + ConsoleColor.RESET);
-                        break;
-                    } 
+                        if (dep != null) {
+                            if (dep.addStudent(student)) {
+                                Debug.info("Student is successfully added.");
+                            } else {
+                                Debug.error("The student already exists!");
+                            }
+                            return;
+                        } else {
+                            Debug.error("No such department `" + student.getDepartment() + "`");
+                            return;
+                        } 
+                    }
                 }
-                break;
+
+                Debug.error("All student options must be specified!");
+                return;
             
             case teacher:
                 if (teacher != null) {
-                    Department dep = null;
-                    for (Faculty fac : Program.university.getFaculties().values()) {
-                        dep = fac.getDepartment(teacher.getDepartment());
-                        if (dep != null)
-                            break;
+                    if (teacher.getDepartment() != null && teacher.getName() != null) {
+                        Department dep = null;
+                        for (Faculty fac : Program.university.getFaculties().values()) {
+                            dep = fac.getDepartment(teacher.getDepartment());
+                            if (dep != null)
+                                break;
+                        }
+    
+                        if (dep != null) {
+                            if (dep.addTeacher(teacher)) {
+                                Debug.info("Teacher is successfully added.");
+                            } else {
+                                Debug.error("The teacher already exists!");
+                            }
+                            return;
+                        } else {
+                            Debug.error("No such department `" + teacher.getDepartment() + "`");
+                            return;
+                        } 
                     }
-
-                    if (dep != null) {
-                        dep.addTeacher(teacher);
-                        System.out.println(ConsoleColor.GREEN + "Teacher is successfully added." + ConsoleColor.RESET);
-                        return;
-                    } else {
-                        System.out.println(ConsoleColor.RED + "No such department `" + teacher.getDepartment() + "`" + ConsoleColor.RESET);
-                        break;
-                    } 
                 }
-                break;
 
-            default:
-                break;
+                Debug.error("All teacher options must be specified!");
+                return;
         }
-
-        return;
     }
 
 }

@@ -1,5 +1,6 @@
 package org.verstyukhnutov.kmateam.utils;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.verstyukhnutov.kmateam.components.Student;
@@ -13,7 +14,7 @@ public class Sort {
      * @param teachers teachers array
      */
     public static void sortTeachersAlphabetically(List<Teacher> teachers) {
-        System.out.println(ConsoleColor.CYAN + "Teachers sorted alphabetically" + ConsoleColor.RESET);
+        Debug.info("Teachers sorted alphabetically");
     }
 
     /**
@@ -22,7 +23,7 @@ public class Sort {
      * @param students students array
      */
     public static void sortStudentsAlphabetically(List<Student> students) {
-        System.out.println(ConsoleColor.CYAN + "Students sorted alphabetically" + ConsoleColor.RESET);
+        Debug.info("Students sorted alphabetically");
     }
 
     /**
@@ -31,6 +32,7 @@ public class Sort {
      * @param students students array
      */
     public static void sortStudentsByCourse(List<Student> students) {
-        System.out.println(ConsoleColor.CYAN + "Students sorted by course" + ConsoleColor.RESET);
+        students.sort(Comparator.comparingInt(Student::getCourse));
+        Debug.info("Students sorted by course");
     }
 }
