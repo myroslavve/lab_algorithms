@@ -1,9 +1,8 @@
 # Tasklist
  - [x] `add` command
- - [ ] `edit` command
- - [ ] `delete` command
+ - [x] `edit` command
+ - [x] `delete` command
  - [ ] `find` command
  - [x] `show` command
  - [ ] sorting
  - [ ] name/surname validation
- - [ ] exceptions instead of `println`

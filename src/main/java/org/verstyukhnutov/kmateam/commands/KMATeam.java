@@ -14,6 +14,7 @@ import java.util.concurrent.Callable;
         KMATeamAdd.class,
         KMATeamShow.class,
         KMATeamEdit.class,
+        KMATeamDelete.class,
         CommandLine.HelpCommand.class,
     }
 )
