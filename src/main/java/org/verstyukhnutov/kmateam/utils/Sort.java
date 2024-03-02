@@ -6,7 +6,6 @@ import java.util.List;
 import org.verstyukhnutov.kmateam.components.Student;
 import org.verstyukhnutov.kmateam.components.Teacher;
 
-// TODO: Sorting
 public class Sort {
     /**
      * Sorts teachers by alphabet
@@ -14,7 +13,7 @@ public class Sort {
      * @param teachers teachers array
      */
     public static void sortTeachersAlphabetically(List<Teacher> teachers) {
-        Debug.info("Teachers sorted alphabetically");
+        teachers.sort(Comparator.comparing(Teacher::getName));
     }
 
     /**
@@ -23,7 +22,7 @@ public class Sort {
      * @param students students array
      */
     public static void sortStudentsAlphabetically(List<Student> students) {
-        Debug.info("Students sorted alphabetically");
+        students.sort(Comparator.comparing(Student::getName));
     }
 
     /**
@@ -33,6 +32,5 @@ public class Sort {
      */
     public static void sortStudentsByCourse(List<Student> students) {
         students.sort(Comparator.comparingInt(Student::getCourse));
-        Debug.info("Students sorted by course");
     }
 }
