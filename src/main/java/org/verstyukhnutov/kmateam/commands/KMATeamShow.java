@@ -73,12 +73,10 @@ public class KMATeamShow implements Runnable {
                     if (dep != null) {
                         switch (displayType) {
                             case students:
-                                students.clear();
                                 students.addAll(dep.getStudents().values());
                                 break;
 
                             case teachers:
-                                teachers.clear();
                                 teachers.addAll(dep.getTeachers().values());
                                 break;
 
@@ -157,7 +155,7 @@ public class KMATeamShow implements Runnable {
                     case students:
                         if (search.rangeName != null) {
                             try {
-                                int course = Integer.valueOf(search.rangeName);
+                                int course = Integer.parseInt(search.rangeName);
 
                                 for (Faculty fac : Program.university.getFaculties().values()) {
                                     for (Department dep : fac.getDepartments().values()) {
