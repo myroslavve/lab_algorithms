@@ -4,5 +4,5 @@
  - [x] `delete` command
  - [x] `show` command
  - [x] `find` command
- - [ ] sorting
- - [ ] name/surname validation
+ - [x] sorting
+ - [x] name/surname validation
