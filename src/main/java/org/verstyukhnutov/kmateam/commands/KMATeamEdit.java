@@ -197,8 +197,8 @@ public class KMATeamEdit implements Runnable {
             return;
         }
 
-        if (department.getName() == null) {
-            Debug.info("Department is successfully edited.");
+        if (department.getName() == null || department.getName().isEmpty()) {
+            Debug.error("Department name must be specified!");
             return;
         }
 

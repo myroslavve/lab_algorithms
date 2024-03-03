@@ -134,6 +134,11 @@ public class KMATeamAdd implements Runnable {
             return;
         }
 
+        if (department.getName().isEmpty()) {
+            Debug.error("Department name cannot be empty!");
+            return;
+        }
+
         Faculty fac = Program.university.getFaculty(department.getFaculty());
 
         if (fac == null) {
@@ -151,6 +156,10 @@ public class KMATeamAdd implements Runnable {
     private void addFaculty() {
         if (faculty == null || faculty.getName() == null) {
             Debug.error("All faculty options must be specified!");
+            return;
+        }
+        if (faculty.getName().isEmpty()) {
+            Debug.error("Faculty name cannot be empty!");
             return;
         }
 
