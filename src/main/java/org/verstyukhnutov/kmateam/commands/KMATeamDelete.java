@@ -30,63 +30,75 @@ public class KMATeamDelete implements Runnable {
     public void run() {
         switch (manipulateType) {
             case faculty:
-                for (String facultyName : Program.university.getFaculties().keySet()) {
-                    if (facultyName.equals(manipulateName)) {
-                        Program.university.removeFaculty(facultyName);
-                        Debug.info("Faculty is successfully deleted.");
+                deleteFaculty();
+                return;
+            case department:
+                deleteDepartment();
+                return;
+            case student:
+                deleteStudent();
+                return;
+            case teacher:
+                deleteTeacher();
+        }
+    }
+
+    private void deleteTeacher() {
+        for (Faculty fac : Program.university.getFaculties().values()) {
+            for (Department dep : fac.getDepartments().values()) {
+                for (String teacherName : dep.getTeachers().keySet()) {
+                    if (teacherName.equals(manipulateName)) {
+                        dep.removeTeacher(teacherName);
+                        Debug.info("Teacher is successfully deleted.");
                         return;
                     }
                 }
-
-                Debug.error("No such faculty `" + manipulateName + "`!");
-                return;
-
-            case department:
-                for (Faculty fac : Program.university.getFaculties().values()) {
-                    for (String departmentName : fac.getDepartments().keySet()) {
-                        if (departmentName.equals(manipulateName)) {
-                            fac.removeDepartment(departmentName);
-                            Debug.info("Department is successfully deleted.");
-                            return;
-                        }
-                    }
-                }
-
-                Debug.error("No such department `" + manipulateName + "`!");
-                return;
-
-            case student:
-                for (Faculty fac : Program.university.getFaculties().values()) {
-                    for (Department dep : fac.getDepartments().values()) {
-                        for (String studentName : dep.getStudents().keySet()) {
-                            if (studentName.equals(manipulateName)) {
-                                dep.removeStudent(studentName);
-                                Debug.info("Student is successfully deleted.");
-                                return;
-                            }
-                        }
-                    }
-                }
-
-                Debug.error("No such student `" + manipulateName + "`!");
-                return;
-            
-            case teacher:
-                for (Faculty fac : Program.university.getFaculties().values()) {
-                    for (Department dep : fac.getDepartments().values()) {
-                        for (String teacherName : dep.getTeachers().keySet()) {
-                            if (teacherName.equals(manipulateName)) {
-                                dep.removeTeacher(teacherName);
-                                Debug.info("Teacher is successfully deleted.");
-                                return;
-                            }
-                        }
-                    }
-                }
-
-                Debug.error("No such teacher `" + manipulateName + "`!");
-                return;
+            }
         }
+
+        Debug.error("No such teacher `" + manipulateName + "`!");
+    }
+
+    private void deleteStudent() {
+        for (Faculty fac : Program.university.getFaculties().values()) {
+            for (Department dep : fac.getDepartments().values()) {
+                for (String studentName : dep.getStudents().keySet()) {
+                    if (studentName.equals(manipulateName)) {
+                        dep.removeStudent(studentName);
+                        Debug.info("Student is successfully deleted.");
+                        return;
+                    }
+                }
+            }
+        }
+
+        Debug.error("No such student `" + manipulateName + "`!");
+    }
+
+    private void deleteDepartment() {
+        for (Faculty fac : Program.university.getFaculties().values()) {
+            for (String departmentName : fac.getDepartments().keySet()) {
+                if (departmentName.equals(manipulateName)) {
+                    fac.removeDepartment(departmentName);
+                    Debug.info("Department is successfully deleted.");
+                    return;
+                }
+            }
+        }
+
+        Debug.error("No such department `" + manipulateName + "`!");
+    }
+
+    private void deleteFaculty() {
+        for (String facultyName : Program.university.getFaculties().keySet()) {
+            if (facultyName.equals(manipulateName)) {
+                Program.university.removeFaculty(facultyName);
+                Debug.info("Faculty is successfully deleted.");
+                return;
+            }
+        }
+
+        Debug.error("No such faculty `" + manipulateName + "`!");
     }
 
 }
