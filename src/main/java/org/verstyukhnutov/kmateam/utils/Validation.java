@@ -32,11 +32,35 @@ public class Validation {
     }
 
     /**
-     * Checks if name is valid
+     * Checks if name is of format "P_I_B" - where "P" is a surname, "I" is a name, "B" is a patronymic
      * @param name name to check
      * @return true if the name is valid, false otherwise
      */
     public static boolean isValidName(String name) {
-        return !isEmpty(name);
+        if (name == null) {
+            return false;
+        }
+
+        String[] parts = name.split("_");
+
+        // Check if the number of parts is not 3
+        if (parts.length != 3) {
+            return false;
+        }
+
+        if (parts[0].isEmpty() || parts[1].isEmpty() || parts[2].isEmpty()) {
+            return false;
+        }
+
+        // Check if all characters in all parts are letters
+        for (String part : parts) {
+            for (char c : part.toCharArray()) {
+                if (!Character.isLetter(c)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }
