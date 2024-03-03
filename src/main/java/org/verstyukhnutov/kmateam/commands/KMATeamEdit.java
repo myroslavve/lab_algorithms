@@ -7,6 +7,7 @@ import org.verstyukhnutov.kmateam.components.Student;
 import org.verstyukhnutov.kmateam.components.Teacher;
 import org.verstyukhnutov.kmateam.utils.Debug;
 import org.verstyukhnutov.kmateam.utils.ManipulateType;
+import org.verstyukhnutov.kmateam.utils.Validation;
 
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
@@ -103,7 +104,7 @@ public class KMATeamEdit implements Runnable {
                             borrowedFaculty.removeDepartment(departmentToEdit.getName());
 
                             departmentToEdit.setName(department.getName());
-                            
+
                             for (Student student : departmentToEdit.getStudents().values()) {
                                 student.setDepartment(department.getName());
                             }
@@ -150,14 +151,29 @@ public class KMATeamEdit implements Runnable {
                         }
 
                         if (student.getGroup() != 0) {
+                            if (!Validation.isValidGroup(student.getGroup())) {
+                                Debug.error("Invalid student group! Group must be in range 1-6");
+                                return;
+                            }
+
                             studentToEdit.setGroup(student.getGroup());
                         }
 
                         if (student.getCourse() != 0) {
+                            if (!Validation.isValidCourse(student.getCourse())) {
+                                Debug.error("Invalid student course! Course must be in range 1-6");
+                                return;
+                            }
+
                             studentToEdit.setCourse(student.getCourse());
                         }
 
                         if (student.getName() != null) {
+                            if (!Validation.isValidName(student.getName())) {
+                                Debug.error("Invalid student name! Name must be of format `P_I_B`");
+                                return;
+                            }
+
                             borrowedDepartment.removeStudent(studentToEdit.getName());
                             studentToEdit.setName(student.getName());
                             borrowedDepartment.addStudent(studentToEdit);
@@ -174,7 +190,7 @@ public class KMATeamEdit implements Runnable {
 
                 Debug.error("Student must have at least 1 field to edit!");
                 return;
-            
+
             case teacher:
                 if (teacher != null) {
                     Department borrowedDepartment = null;
@@ -198,6 +214,11 @@ public class KMATeamEdit implements Runnable {
                         }
 
                         if (teacher.getName() != null) {
+                            if (!Validation.isValidName(teacher.getName())) {
+                                Debug.error("Invalid teacher name! Name must be of format `P_I_B`");
+                                return;
+                            }
+
                             borrowedDepartment.removeTeacher(teacherToEdit.getName());
                             teacherToEdit.setName(teacher.getName());
                             borrowedDepartment.addTeacher(teacherToEdit);

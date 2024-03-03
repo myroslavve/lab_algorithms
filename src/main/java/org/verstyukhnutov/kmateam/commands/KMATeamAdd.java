@@ -7,6 +7,7 @@ import org.verstyukhnutov.kmateam.components.Student;
 import org.verstyukhnutov.kmateam.components.Teacher;
 import org.verstyukhnutov.kmateam.utils.Debug;
 import org.verstyukhnutov.kmateam.utils.ManipulateType;
+import org.verstyukhnutov.kmateam.utils.Validation;
 
 import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Command;
@@ -81,6 +82,19 @@ public class KMATeamAdd implements Runnable {
                         student.getGroup() != 0 && 
                         student.getDepartment() != null)
                     {
+                        if (!Validation.isValidName(student.getName())) {
+                            Debug.error("Invalid student name! Name must be of format `P_I_B`");
+                            return;
+                        }
+                        if (!Validation.isValidCourse(student.getCourse())) {
+                            Debug.error("Invalid student course! Course must be in range 1-4");
+                            return;
+                        }
+                        if (!Validation.isValidGroup(student.getGroup())) {
+                            Debug.error("Invalid student group! Group must be in range 1-6");
+                            return;
+                        }
+
                         Department dep = null;
                         for (Faculty fac : Program.university.getFaculties().values()) {
                             dep = fac.getDepartment(student.getDepartment());
@@ -108,6 +122,11 @@ public class KMATeamAdd implements Runnable {
             case teacher:
                 if (teacher != null) {
                     if (teacher.getDepartment() != null && teacher.getName() != null) {
+                        if (!Validation.isValidName(teacher.getName())) {
+                            Debug.error("Invalid teacher name!");
+                            return;
+                        }
+
                         Department dep = null;
                         for (Faculty fac : Program.university.getFaculties().values()) {
                             dep = fac.getDepartment(teacher.getDepartment());
