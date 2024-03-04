@@ -18,18 +18,6 @@ public class Teacher {
     @Option(names = "--teacher-department", required = false)
     String department;
 
-    // /**
-    //  * Constructs a new Teacher with the given name, department, and faculty.
-    //  *
-    //  * @param name the name of the teacher
-    //  * @param department the department the teacher belongs to
-    //  * @param faculty the faculty the teacher belongs to
-    //  */
-    // public Teacher(String name, String department) {
-    //     this.name = name;
-    //     this.department = department;
-    // }
-
     /**
      * Returns the name of the teacher.
      *
